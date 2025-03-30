@@ -30,7 +30,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useGetFlashSalesQuery } from "../store/features/sales";
 import FlashSaleSection from "@/components/FlashSaleSection";
 import { useUser } from "@/hook/useUser";
-import Chat from "@/components/Chat";
+// import Chat from "@/components/Chat";
 import { usePathname } from "next/navigation";
 const { Countdown } = Statistic;
 import { SendOutlined, UpOutlined } from "@ant-design/icons";
@@ -473,7 +473,7 @@ const HomePage = () => {
               </Slider>
             </div>
 
-            <div className="fixed right-6 md:right-10 bottom-10 z-50 flex flex-col gap-7">
+            {/* <div className="fixed right-6 md:right-10 bottom-10 z-50 flex flex-col gap-7">
               <div
                 onClick={() => window.scrollTo(0, 0)}
                 className="w-12 md:w-16 h-12 md:h-16  flex items-center justify-center bg-blue-500 rounded-full cursor-pointer select-none"
@@ -500,7 +500,7 @@ const HomePage = () => {
                   )}
                 </div>
               )}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

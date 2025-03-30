@@ -76,11 +76,11 @@ const AdminLayout = () => {
       icon: <FileTextOutlined />,
       label: <Link href="/admin/sales">Flash Sale</Link>,
     },
-    {
-      key: "7",
-      icon: <SendOutlined />,
-      label: <Link href="/admin/chat">Chat</Link>,
-    },
+    // {
+    //   key: "7",
+    //   icon: <SendOutlined />,
+    //   label: <Link href="/admin/chat">Chat</Link>,
+    // },
 
     // {
     //   key: "7",
