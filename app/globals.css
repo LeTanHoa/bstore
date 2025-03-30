@@ -2,20 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+* {
+  scroll-behavior: smooth;
+
+  box-sizing: border-box;
+}
+/* .scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+} */
+
+.slick-list {
+  overflow: hidden !important; /* Giữ các phần tử trong container */
+  padding: 20px 0; /* Tạo khoảng cách giúp shadow hiển thị mà không bị cắt */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.slick-slide > div {
+  display: flex;
+  justify-content: center;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+:where(.ant-tabs-nav .ant-tabs-tab) {
+  flex: 1 !important;
+  text-align: center;
+  justify-content: center;
+}
+.ant-tabs-nav-list {
+  width: 100% !important;
+}
+.slide-product .slick-list {
+  padding: 0 !important;
+}
+
+.ant-drawer-content,
+.ant-drawer-header,
+.ant-menu,
+.ant-menu-item {
+  color: #fff !important;
+}
+
+.ant-menu-item-selected {
+  color: #fff !important; /* Đảm bảo mục được chọn cũng là màu trắng */
+}
+.circle .highcharts-title,
+.circle .highcharts-credits {
+  display: none !important;
 }
