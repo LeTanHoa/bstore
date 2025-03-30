@@ -25,4 +25,4 @@ const ChatAdmin = () => {
   );
 };
 
-export default C;
+export default ChatAdmin;
