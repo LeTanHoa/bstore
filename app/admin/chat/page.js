@@ -14,15 +14,15 @@
 
 // export default ChatAdmin;
 
-import { View, Text } from "react-native";
-import React from "react";
+import React from 'react'
 
 const ChatAdmin = () => {
   return (
-    <View>
-      <Text>C</Text>
-    </View>
-  );
-};
+    <div>
+      s
+    </div>
+  )
+}
 
-export default ChatAdmin;
+export default ChatAdmin
+
