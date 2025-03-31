@@ -297,6 +297,7 @@ const ProductManagement = () => {
           open={isModalOpen}
           onCancel={handleCloseModal}
           footer={null}
+          width={800}
         >
           <ProductForm
             key={formKey} // Thêm key để reset form

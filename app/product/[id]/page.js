@@ -49,7 +49,7 @@ export async function generateMetadata({ params }) {
       },
       robots: "index, follow",
       alternates: {
-        canonical: `https://yourdomain.com/product/${id}`,
+        canonical: `https://shop-bstore.vercel.app/product/${id}`,
       },
     };
   } catch (error) {

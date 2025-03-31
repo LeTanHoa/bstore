@@ -154,7 +154,7 @@ const ProductForm = ({ initialValues, onSuccess }) => {
   };
 
   return (
-    <Form form={form} name="productForm" onFinish={onFinish} layout="vertical">
+    <Form className="h-[600px] md:h-[700px] overflow-y-scroll"  form={form} name="productForm" onFinish={onFinish} layout="vertical">
       <Form.Item label="Tên sản phẩm" name="name">
         <Input />
       </Form.Item>

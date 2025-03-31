@@ -554,13 +554,13 @@ const ProductDetailClient = ({ params }) => {
 
   if (isLoading)
     return (
-      <div className="flex w-full h-full items-center justify-center">
+      <div className="min-h-screen flex w-full h-full items-center justify-center">
         <Spin />
       </div>
     );
   if (!product) return <p>Không tìm thấy sản phẩm</p>;
   return (
-    <div className="">
+    <div className="min-h-screen">
       <div className="mt-28 max-w-screen-xl px-3 md:px-0 gap-5 flex flex-col mx-auto">
         <div className="flex items-center gap-5">
           <IoChevronBackOutline
