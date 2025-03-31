@@ -79,8 +79,8 @@ const Header = () => {
         <div className="bg-black w-full h-[70px] sm:h-[75px] fixed top-0 left-0 right-0 z-50 shadow-2xl">
           <div className="h-full flex items-center max-w-screen-sm md:max-w-screen-xl mx-auto px-2  overflow-hidden">
             {/* Logo */}
-            <div className="w-3/12 sm:w-2/12">
-              <Link href="/home" className="  cursor-pointer">
+            <div className="w-3/12 sm:w-2/12 cursor-pointer">
+              <Link href="/home" className="cursor-pointer">
                 <Image src={logo} alt="" width={80} height={80} />
               </Link>
             </div>

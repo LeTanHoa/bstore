@@ -8,10 +8,12 @@ import Footer from "@/components/Footer";
 import { UserProvider } from "@/hook/useUser";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+
 const outfit = Outfit({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
 });
+
 export const metadata = {
   title: "B Store Việt Nam - Mua iPhone, MacBook, iPad chính hãng",
   description:
@@ -22,11 +24,11 @@ export const metadata = {
     title: "B Store Việt Nam - Sản phẩm Apple chính hãng",
     description:
       "Mua sắm các sản phẩm Apple chính hãng với nhiều ưu đãi. Bảo hành 12 tháng, giao hàng nhanh chóng!",
-    // url: "https://yourapplestore.com",
+    url: "https://shop-bstore.vercel.app",
     siteName: "B Store Việt Nam",
     images: [
       {
-        url: "/logo.png",
+        url: "/logo.png", // Đường dẫn sửa lại
         width: 1200,
         height: 630,
       },
@@ -34,16 +36,13 @@ export const metadata = {
     type: "website",
   },
   icons: {
-    icon: "/logo.png", // Favicon chính
-    shortcut: "/logo.png",
-    apple: "/logo.png", // Icon cho iOS
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Apple Store Việt Nam - Mua iPhone, MacBook, iPad chính hãng",
-    description:
-      "Mua sắm các sản phẩm Apple chính hãng với giá tốt nhất. Bảo hành chính hãng, hỗ trợ trả góp 0%.",
-    images: ["https://yourapplestore.com/og-image.jpg"],
+    icon: [
+      { url: "/logo.png", type: "image/png" }, // Favicon cho thanh tab
+    ],
+    shortcut: "/logo.png", // Icon shortcut
+    apple: [
+      { url: "/logo.png", sizes: "180x180", type: "image/png" }, // Icon cho Apple devices
+    ],
   },
 };
 
