@@ -14,10 +14,11 @@ export const blogApi = createApi({
     }),
 
     addBlog: builder.mutation({
-      query: (blog) => ({
+      query: (formData) => ({
         url: "/blogs",
         method: "POST",
-        body: blog,
+        body: formData,
+        // Không set Content-Type để browser tự xử lý multipart/form-data
       }),
       invalidatesTags: ["blogs"],
     }),
@@ -25,11 +26,9 @@ export const blogApi = createApi({
       query: ({ id, formData }) => ({
         url: `/blogs/${id}`,
         method: "PUT",
-        body: formData, // Gửi FormData thay vì JSON object
-        headers: {
-          // Không đặt Content-Type, trình duyệt sẽ tự động thêm boundary
-        },
+        body: formData,
       }),
+      invalidatesTags: ["blogs"],
     }),
 
     deleteBlog: builder.mutation({

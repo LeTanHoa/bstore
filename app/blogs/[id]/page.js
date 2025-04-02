@@ -29,6 +29,22 @@ const CustomNextArrow = ({ onClick }) => (
   </button>
 );
 
+// Thêm hàm xử lý URL
+const getValidImageUrl = (imageUrl) => {
+  if (!imageUrl) return null;
+
+  // Nếu đã là URL Cloudinary đầy đủ
+  if (imageUrl.startsWith("https://res.cloudinary.com/")) {
+    return imageUrl;
+  }
+
+  // Tạo URL Cloudinary đầy đủ
+  const cloudinaryBaseUrl =
+    "https://res.cloudinary.com/dahm7mli8/image/upload/";
+  const cleanImagePath = imageUrl.replace(/^\/+/, "");
+  return `${cloudinaryBaseUrl}${cleanImagePath}`;
+};
+
 const BlogDetail = ({ params }) => {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -68,7 +84,7 @@ const BlogDetail = ({ params }) => {
     }
   }, [id]);
   return (
-    <div className="bg-black">
+    <div className="bg-black min-h-screen">
       <div className="max-w-screen-lg px-3 md:px-0 py-24 md:py-32 mx-auto ">
         <div className="flex items-center mb-5">
           <span
@@ -88,30 +104,33 @@ const BlogDetail = ({ params }) => {
           {blog?.title}
         </span>
         <div className=" flex flex-col bg-white p-5  rounded-t-xl gap-5">
-          <Image
-            style={{
-              borderRadius: "10px",
-              objectFit: "cover",
-              width: "100%",
-              height: "auto",
-            }}
-            alt=""
-            width={100}
-            height={100}
-            src={`https://api-bstore-no35.vercel.app/uploads/${blog?.image}`}
-          />
+          {blog?.image && (
+            <Image
+              style={{
+                borderRadius: "10px",
+                objectFit: "cover",
+                width: "100%",
+                height: "auto",
+              }}
+              alt={blog?.title || "Blog image"}
+              width={100}
+              height={100}
+              src={getValidImageUrl(blog.image)}
+            />
+          )}
           <p
             className="text-justify"
             dangerouslySetInnerHTML={{ __html: blog?.content }}
           ></p>
         </div>
-        <div className="bg-[#444444] rounded-b-xl ">
+        <div className="bg-[#444444]  pb-5 rounded-b-xl ">
           <div className="">
-            <span className="text-white font-bold px-5 pt-5 block text-[18px] md:text-[22px]">
+            <span className="text-white mb-2 font-bold px-5 pt-5 block text-[18px] md:text-[22px]">
               Bài viết liên quan
             </span>
             <Slider {...settings}>
               {filterBlogs?.map((item) => {
+                const validImageUrl = getValidImageUrl(item.image);
                 return (
                   <div
                     key={item._id}
@@ -119,13 +138,15 @@ const BlogDetail = ({ params }) => {
                   >
                     <div className=" flex flex-col w-full">
                       <div className="">
-                        <Image
-                          src={`https://api-bstore-no35.vercel.app/uploads/${item.image}`}
-                          alt=""
-                          className=" w-full   object-cover"
-                          width={100}
-                          height={100}
-                        />
+                        {validImageUrl && (
+                          <Image
+                            src={validImageUrl}
+                            alt={item.title || "Blog image"}
+                            className=" w-full   object-cover"
+                            width={100}
+                            height={100}
+                          />
+                        )}
                       </div>
                       <div className="flex flex-col justify-between p-3">
                         <Link href={`/blogs/${item?._id}`}>

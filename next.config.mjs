@@ -1,31 +1,30 @@
-// /** @type {import('next').NextConfig} */
-// const nextConfig = {
-//   images: {
-//     domains: ["localhost"], // Thêm localhost vào danh sách được phép
-//     remotePatterns: [
-//       {
-//         protocol: "http",
-//         hostname: "localhost",
-//         port: "8080", // Đảm bảo đúng cổng API đang chạy
-//         pathname: "/uploads/**", // Định nghĩa đường dẫn ảnh
-//       },
-//     ],
-//   },
-// };
-
-// export default nextConfig;
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    domains: ["res.cloudinary.com"], // Thêm domain của Cloudinary
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "api-bstore-no35.vercel.app",
-        pathname: "/uploads/**",
+        protocol: "https", // Cloudinary dùng HTTPS
+        hostname: "res.cloudinary.com",
+        pathname: "/dahm7mli8/**", // Cloud name của bạn là dahm7mli8
       },
     ],
   },
 };
 
 export default nextConfig;
+
+// /** @type {import('next').NextConfig} */
+// const nextConfig = {
+//   images: {
+//     remotePatterns: [
+//       {
+//         protocol: "https",
+//         hostname: "api-bstore-no35.vercel.app",
+//         pathname: "/uploads/**",
+//       },
+//     ],
+//   },
+// };
+
+// export default nextConfig;

@@ -16,6 +16,22 @@ import axios from "axios";
 import baseUrl from "@/config/baseUrl";
 
 const { Option } = Select;
+
+// Thêm hàm xử lý URL Cloudinary
+const getValidImageUrl = (imageUrl) => {
+  if (!imageUrl) return null;
+  
+  // Nếu đã là URL đầy đủ
+  if (imageUrl.startsWith('https://')) {
+    return imageUrl;
+  }
+  
+  // Tạo URL Cloudinary đầy đủ
+  const cloudinaryBaseUrl = 'https://res.cloudinary.com/dahm7mli8/image/upload/';
+  const cleanImagePath = imageUrl.replace(/^\/+/, '');
+  return `${cloudinaryBaseUrl}${cleanImagePath}`;
+};
+
 const Bill = () => {
   const { data: orders, isLoading, refetch } = useGetOrdersQuery();
   const [updateStatusDelivery] = useUpdateStatusDeliveryMutation();
@@ -210,11 +226,11 @@ const Bill = () => {
           {record.cartItems.map((item, index) => (
             <div
               key={index}
-              className="flex items-center gap-2 cursor-pointer "
+              className="flex items-center gap-2 cursor-pointer"
             >
               <Image
-                src={`https://api-bstore-no35.vercel.app/uploads/${item?.image}`}
-                alt=""
+                src={getValidImageUrl(item?.image)}
+                alt={item?.name || "Product image"}
                 width={50}
                 height={50}
               />

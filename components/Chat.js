@@ -9,7 +9,7 @@
 
 // let socket;
 // if (typeof window !== "undefined") {
-//   socket = io("https://api-bstore-no35.vercel.app");
+//   socket = io("http://localhost:8000");
 // }
 
 // export default function Chat({ userId, role, isChatOpen, setIsChatOpen }) {
@@ -62,12 +62,12 @@
 //     });
 
 //     if (role === "admin") {
-//       axios.get("https://api-bstore-no35.vercel.app/api/users").then((res) => {
+//       axios.get("http://localhost:8000/api/users").then((res) => {
 //         setUsers(res.data);
 //       });
 //     }
 
-//     axios.get(`https://api-bstore-no35.vercel.app/api/messages/${userId}`).then((res) => {
+//     axios.get(`http://localhost:8000/api/messages/${userId}`).then((res) => {
 //       setMessages(res.data);
 //     });
 
@@ -121,7 +121,7 @@
 //       ...prev,
 //       [userId]: 0,
 //     }));
-//     axios.get(`https://api-bstore-no35.vercel.app/api/messages/${userId}`).then((res) => {
+//     axios.get(`http://localhost:8000/api/messages/${userId}`).then((res) => {
 //       setMessages(res.data);
 //     });
 //   };

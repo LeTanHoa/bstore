@@ -56,12 +56,18 @@ const CardProduct = ({
       }  w-[280px] gap-5 justify-center rounded-xl shadow-md flex items-center flex-col h-[460px]`}
     >
       <div className="px-4">
-        <Image
-          src={`https://api-bstore-no35.vercel.app/uploads/${image}`}
-          alt={name}
-          width={280}
-          height={280}
-        />
+        {image ? (
+          <Image
+            src={image}
+            alt={name || "Product Image"}
+            width={280}
+            height={280}
+          />
+        ) : (
+          <div className="w-[280px] h-[280px] bg-gray-200 flex items-center justify-center">
+            <span className="text-gray-500">No Image</span>
+          </div>
+        )}
       </div>
       <span
         onClick={handleClick}
@@ -97,5 +103,3 @@ const CardProduct = ({
 };
 
 export default CardProduct;
-
-

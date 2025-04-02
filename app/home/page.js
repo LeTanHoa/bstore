@@ -65,7 +65,7 @@ const HomePage = () => {
   const datasIpad = products?.filter((item) => item.productType === "iPad");
   const datasWatch = products?.filter((item) => item.productType === "Watch");
   const datasAirpods = products?.filter(
-    (item) => item.productType === "AirPod"
+    (item) => item.productType === "Airpod"
   );
   const datasAccessories = products?.filter(
     (item) => item.productType === "Phụ kiện"
@@ -288,11 +288,11 @@ const HomePage = () => {
                 Sản phẩm dành cho bạn
               </span>
             </div>
-            {/* <div>
-                <Link href="" className="w-full text-white">
-                  Xem thêm
-                </Link>
-              </div> */}
+            <div>
+              <Link href="" className="w-full text-white">
+                Xem thêm
+              </Link>
+            </div>
             <div className="w-full">
               {isLoading ? (
                 <div className="w-full  flex items-center justify-center">
@@ -329,22 +329,23 @@ const HomePage = () => {
             </span>
             <div>
               <Slider {...settingsProduct}>
-                {datasIphone?.map((item) => {
-                  return (
-                    <div key={item._id} className="mx-2">
+                {datasIphone?.map((item) =>
+                  item?.colors?.length > 0 &&
+                  item.colors[0]?.images?.length > 0 ? (
+                    <div key={item?._id} className="mx-2">
                       <CardProduct
-                        image={item?.colors[0]?.images[0]}
-                        color={item?.colors[0]?.colorCode}
-                        colorName={item?.colors[0]?.colorName}
-                        colorId={item?.colors[0]?._id}
+                        image={item.colors[0].images[0]}
+                        color={item.colors[0].colorCode}
+                        colorName={item.colors[0].colorName}
+                        colorId={item.colors[0]._id}
                         name={item.name}
                         price={item.price}
                         id={item._id}
                         product={item}
                       />
                     </div>
-                  );
-                })}
+                  ) : null
+                )}
               </Slider>
             </div>
           </div>

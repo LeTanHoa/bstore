@@ -374,7 +374,7 @@ const OrderSuccess = () => {
             {order.cartItems?.map((item, index) => (
               <div key={item.id + index} className="flex items-center gap-4">
                 <Image
-                  src={`https://api-bstore-no35.vercel.app/uploads/${item.image}`}
+                  src={`${item.image}`}
                   alt={item.name || "Sản phẩm"}
                   width={60}
                   height={60}

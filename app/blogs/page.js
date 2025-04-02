@@ -31,9 +31,25 @@ const CustomNextArrow = ({ onClick }) => (
     <FaChevronRight className="text-[20px]" />
   </button>
 );
+
+// Thêm hàm xử lý URL Cloudinary
+const getValidImageUrl = (imageUrl) => {
+  if (!imageUrl) return null;
+
+  // Nếu đã là URL đầy đủ
+  if (imageUrl.startsWith("https://")) {
+    return imageUrl;
+  }
+
+  // Tạo URL Cloudinary đầy đủ
+  const cloudinaryBaseUrl =
+    "https://res.cloudinary.com/dahm7mli8/image/upload/";
+  const cleanImagePath = imageUrl.replace(/^\/+/, "");
+  return `${cloudinaryBaseUrl}${cleanImagePath}`;
+};
+
 const Blogs = () => {
   const [isMobile, setIsMobile] = useState(false);
-
 
   const { data: blogs } = useGetBlogsQuery();
   const [cate, setCate] = useState("iPhone");
@@ -96,7 +112,7 @@ const Blogs = () => {
   const filterCate = blogs.filter((item) => item.category === cate);
 
   return (
-    <div className="bg-[#3e3e3f]">
+    <div className="bg-[#3e3e3f] min-h-screen">
       <div className="max-w-screen-xl mx-auto">
         <div className="py-24 w-full flex flex-col px-3 md:px-0 gap-5">
           {isMobile ? (
@@ -107,9 +123,9 @@ const Blogs = () => {
                   className="relative m-1 h-full overflow-hidden rounded-2xl"
                 >
                   <Image
-                    src={`https://api-bstore-no35.vercel.app/uploads/${item?.image}`}
-                    alt=""
-                    className="w-full h-full object-cover"
+                    src={getValidImageUrl(item?.image)}
+                    alt={item?.title || "Blog image"}
+                    className="w-full h-full object-contain"
                     width={100}
                     height={100}
                     priority
@@ -131,8 +147,8 @@ const Blogs = () => {
               <div className="w-8/12">
                 <div className="relative h-full overflow-hidden rounded-l-2xl">
                   <Image
-                    src={`https://api-bstore-no35.vercel.app/uploads/${topThree[0]?.image}`}
-                    alt=""
+                    src={getValidImageUrl(topThree[0]?.image)}
+                    alt={topThree[0]?.title || "Blog image"}
                     className="w-full h-full object-cover"
                     width={100}
                     height={100}
@@ -159,8 +175,8 @@ const Blogs = () => {
                     }`}
                   >
                     <Image
-                      src={`https://api-bstore-no35.vercel.app/uploads/${item?.image}`}
-                      alt=""
+                      src={getValidImageUrl(item?.image)}
+                      alt={item?.title || "Blog image"}
                       className="w-full h-full object-cover"
                       width={100}
                       height={100}
@@ -216,8 +232,8 @@ const Blogs = () => {
                         <div className="rounded-xl  flex w-full gap-3 md:gap-0">
                           <div className="w-5/12 ">
                             <Image
-                              src={`https://api-bstore-no35.vercel.app/uploads/${item.image}`}
-                              alt=""
+                              src={getValidImageUrl(item.image)}
+                              alt={item.title || "Blog image"}
                               className=" w-full rounded-xl  object-cover"
                               width={100}
                               height={100}

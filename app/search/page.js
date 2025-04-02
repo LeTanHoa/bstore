@@ -83,7 +83,7 @@ const Search = () => {
                 >
                   <div className="px-4">
                     <Image
-                      src={`https://api-bstore-no35.vercel.app/uploads/${item?.colors[0]?.images[0]}`}
+                      src={`${item?.colors[0]?.images[0]}`}
                       alt={item.name}
                       width={280}
                       height={280}

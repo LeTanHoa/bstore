@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Table, Button, Modal, Popconfirm } from "antd";
+import { Table, Button, Modal, Popconfirm, message } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import HeadingAdmin from "@/components/AdminComponents/HeadingAdmin";
 import Image from "next/image";
@@ -14,24 +14,28 @@ import {
 } from "@/app/store/features/blogs";
 import { toast } from "react-toastify";
 
+const getValidImageUrl = (imageUrl) => {
+  if (!imageUrl) return null;
+  return imageUrl; // API đã trả về URL đầy đủ từ Cloudinary
+};
+
 const Blog = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isViewModalVisible, setIsViewModalVisible] = useState(false);
   const [selectedContent, setSelectedContent] = useState("");
   const [editingBlog, setEditingBlog] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [addBlog] = useAddBlogMutation();
   const [deleteBlog] = useDeleteBlogMutation();
   const [updateBlog] = useUpdateBlogMutation();
   const { data: blogs, isLoading, refetch } = useGetBlogsQuery();
 
-  // Hiển thị modal xem chi tiết
   const showModal = (content) => {
     setSelectedContent(content);
     setIsViewModalVisible(true);
   };
 
-  // Đóng modal
   const handleCancel = () => {
     setIsViewModalVisible(false);
     setIsModalVisible(false);
@@ -40,75 +44,116 @@ const Blog = () => {
 
   const handleSaveBlog = async (formData) => {
     try {
-      if (editingBlog) {
-        // Cập nhật blog
-        await updateBlog({ id: editingBlog._id, formData }).unwrap();
-        toast.success("Cập nhật blog thành công");
-      } else {
-        // Thêm blog mới
-        await addBlog(formData).unwrap();
-        toast.success("Thêm blog thành công");
-      }
-      setEditingBlog(null);
+      setIsSubmitting(true);
 
-      refetch();
+      // Validate form data
+      const title = formData.get("title");
+      const category = formData.get("category");
+
+      if (!title || !category) {
+        toast.error("Vui lòng điền đầy đủ thông tin!");
+        return;
+      }
+
+      if (editingBlog) {
+        const response = await updateBlog({
+          id: editingBlog._id,
+          formData,
+        }).unwrap();
+
+        if (response) {
+          toast.success("Cập nhật blog thành công");
+          await refetch(); // Đảm bảo dữ liệu được cập nhật
+        }
+      } else {
+        const response = await addBlog(formData).unwrap();
+        if (response) {
+          toast.success("Thêm blog thành công");
+          await refetch();
+        }
+      }
+
       handleCancel();
     } catch (error) {
-      toast.error("Có lỗi xảy ra!");
+      console.error("Error:", error);
+      toast.error(error.data?.message || "Có lỗi xảy ra khi lưu dữ liệu!");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  // Mở modal chỉnh sửa
   const openEditModal = (blog) => {
     setEditingBlog(blog);
     setIsModalVisible(true);
   };
 
-  // Xóa blog
   const handleDelete = async (id) => {
     try {
       await deleteBlog(id).unwrap();
-      refetch();
-      toast.success("Xóa thành công!");
+      await refetch();
+      toast.success("Xóa blog thành công!");
     } catch (error) {
-      toast.error("Xóa thất bại!");
+      toast.error("Xóa blog thất bại!");
     }
   };
 
-  // Cấu hình cột cho bảng
   const columns = [
     {
       title: "STT",
       key: "stt",
+      width: 70,
       render: (text, record, index) => index + 1,
     },
     {
       title: "Tiêu đề",
       dataIndex: "title",
       key: "title",
+      width: 200,
     },
     {
       title: "Loại sản phẩm",
       dataIndex: "category",
       key: "category",
+      width: 150,
     },
     {
       title: "Hình ảnh",
       dataIndex: "image",
       key: "image",
-      render: (image) => (
-        <Image
-          style={{ borderRadius: "10px", objectFit: "cover" }}
-          alt=""
-          width={100}
-          height={100}
-          src={`https://api-bstore-no35.vercel.app/uploads/${image}`}
-        />
-      ),
+      width: 120,
+      render: (image) => {
+        const validImageUrl = getValidImageUrl(image);
+        return validImageUrl ? (
+          <Image
+            style={{ borderRadius: "10px", objectFit: "cover" }}
+            alt="Blog thumbnail"
+            width={100}
+            height={100}
+            src={validImageUrl}
+            priority={false}
+          />
+        ) : (
+          <div
+            style={{
+              width: 100,
+              height: 100,
+              backgroundColor: "#f0f0f0",
+              borderRadius: "10px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            No Image
+          </div>
+        );
+      },
     },
     {
       title: "Tùy chọn",
       key: "actions",
+      fixed: "right",
+      width: 280,
       render: (text, record) => (
         <div style={{ display: "flex", gap: "10px" }}>
           <Button onClick={() => showModal(record.content)}>
@@ -118,7 +163,8 @@ const Blog = () => {
             Chỉnh sửa
           </Button>
           <Popconfirm
-            title="Bạn có chắc chắn muốn xóa blog này không?"
+            title="Xóa blog này?"
+            description="Bạn có chắc chắn muốn xóa blog này không?"
             onConfirm={() => handleDelete(record._id)}
             okText="Có"
             cancelText="Không"
@@ -148,11 +194,14 @@ const Blog = () => {
         dataSource={blogs}
         rowKey="_id"
         loading={isLoading}
-        scroll={{ x: "max-content" }} // Đảm bảo Table rộng tối đa
-        className="w-full" // Thêm class Tailwind để chiếm toàn bộ width
+        scroll={{ x: 1200 }}
+        pagination={{
+          pageSize: 5,
+          showSizeChanger: true,
+          showTotal: (total) => `Tổng số ${total} bài viết`,
+        }}
       />
 
-      {/* Modal Xem Chi Tiết */}
       <Modal
         title="Chi tiết bài viết"
         open={isViewModalVisible}
@@ -163,17 +212,25 @@ const Blog = () => {
           </Button>,
         ]}
         width={1000}
-        bodyStyle={{ maxHeight: "600px", overflowY: "auto" }}
+        styles={{
+          body: {
+            maxHeight: '600px',
+            overflowY: 'auto'
+          }
+        }}
       >
         <div dangerouslySetInnerHTML={{ __html: selectedContent }}></div>
       </Modal>
 
-      {/* Modal Thêm/Chỉnh Sửa Bài Viết */}
       <Modal
         title={editingBlog ? "Chỉnh sửa bài viết" : "Thêm bài viết mới"}
         open={isModalVisible}
         onOk={() => document.querySelector("#blogForm")?.requestSubmit()}
-        onCancel={() => setIsModalVisible(false)}
+        onCancel={handleCancel}
+        confirmLoading={isSubmitting}
+        okText={editingBlog ? "Cập nhật" : "Thêm mới"}
+        cancelText="Hủy"
+        width={700}
       >
         <BlogForm
           onSubmit={handleSaveBlog}

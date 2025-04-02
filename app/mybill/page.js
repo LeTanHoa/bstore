@@ -91,7 +91,7 @@ const MyBill = () => {
             >
               <div>
                 <Image
-                  src={`https://api-bstore-no35.vercel.app/uploads/${item?.image}`}
+                  src={`${item?.image}`}
                   alt=""
                   width={50}
                   height={50}

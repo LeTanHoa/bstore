@@ -36,7 +36,7 @@ const CardProductSale = ({ image, name, price, id, discount }) => {
     >
       <div className="px-4">
         <Image
-          src={`https://api-bstore-no35.vercel.app/uploads/${image}`}
+          src={`${image}`}
           alt={name}
           width={280}
           height={280}

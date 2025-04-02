@@ -12,6 +12,7 @@ import Image from "next/image";
 import { RxUpdate } from "react-icons/rx";
 import { DeleteOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
+
 const ProductManagement = () => {
   const { data: products, isLoading, refetch } = useGetProductsQuery();
   const [deleteProduct] = useDeleteProductMutation();
@@ -24,14 +25,17 @@ const ProductManagement = () => {
   const handleChange = (pagination, filters, sorter) => {
     setSortedInfo(sorter);
   };
+
   const [isModalContentOpen, setIsModalContentOpen] = useState(false);
   const showModalContent = (ct) => {
     setIsModalContentOpen(true);
     setContent(ct);
   };
+
   const handleOkContent = () => {
     setIsModalContentOpen(false);
   };
+
   const handleCancelContent = () => {
     setIsModalContentOpen(false);
   };
@@ -49,12 +53,10 @@ const ProductManagement = () => {
   const handleOpenAdd = () => {
     setEditingProduct(null);
     setIsModalOpen(true);
-    // Reset form khi mở modal thêm mới
     setFormKey((prev) => prev + 1);
   };
 
   const handleOpenEdit = (product) => {
-    // Set dữ liệu cũ khi edit
     setEditingProduct(product);
     setIsModalOpen(true);
   };
@@ -62,11 +64,9 @@ const ProductManagement = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setEditingProduct(null);
-    // Reset form sau khi đóng modal
     setFormKey((prev) => prev + 1);
   };
 
-  // Hàm xử lý khi submit form thành công
   const handleFormSuccess = () => {
     handleCloseModal();
     refetch();
@@ -74,6 +74,192 @@ const ProductManagement = () => {
       editingProduct ? "Cập nhật thành công!" : "Thêm mới thành công!"
     );
   };
+
+  const columns = [
+    {
+      title: "STT",
+      dataIndex: "stt",
+      key: "stt",
+      align: "center",
+      width: 60,
+      render: (_, __, idx) => idx + 1,
+    },
+    {
+      title: "Tên",
+      dataIndex: "name",
+      key: "name",
+      align: "center",
+      ellipsis: true, // Cắt chữ nếu quá dài
+    },
+    {
+      title: "Mô tả",
+      key: "description",
+      align: "center",
+      width: 120,
+      render: (_, record) => (
+        <span
+          className="text-blue-500 cursor-pointer hover:underline"
+          onClick={() => showModalContent(record.description)}
+        >
+          Xem chi tiết
+        </span>
+      ),
+    },
+    {
+      title: "Giá",
+      dataIndex: "price",
+      key: "price",
+      align: "center",
+      sorter: (a, b) => a.price - b.price,
+      sortOrder: sortedInfo.columnKey === "price" && sortedInfo.order,
+      render: (price) => `${price.toLocaleString()} VND`,
+    },
+    {
+      title: "Ngày ra mắt",
+      dataIndex: "releaseDate",
+      key: "releaseDate",
+      align: "center",
+      render: (date) =>
+        date ? new Date(date).toLocaleDateString("vi-VN") : "Chưa có",
+    },
+    {
+      title: "Số lượng",
+      dataIndex: "stock",
+      key: "stock",
+      align: "center",
+      sorter: (a, b) => a.stock - b.stock,
+      sortOrder: sortedInfo.columnKey === "stock" && sortedInfo.order,
+    },
+    {
+      title: "Chip",
+      dataIndex: "chip",
+      key: "chip",
+      align: "center",
+      ellipsis: true,
+    },
+    {
+      title: "RAM",
+      dataIndex: "ram",
+      key: "ram",
+      align: "center",
+      ellipsis: true,
+    },
+    {
+      title: "Storage",
+      dataIndex: "storage",
+      key: "storage",
+      align: "center",
+      ellipsis: true,
+    },
+    {
+      title: "Màn hình",
+      dataIndex: "display",
+      key: "display",
+      align: "center",
+      ellipsis: true,
+    },
+    {
+      title: "Pin",
+      dataIndex: "battery",
+      key: "battery",
+      align: "center",
+      ellipsis: true,
+    },
+    {
+      title: "Camera",
+      dataIndex: "camera",
+      key: "camera",
+      align: "center",
+      ellipsis: true,
+    },
+    {
+      title: "Hệ điều hành",
+      dataIndex: "os",
+      key: "os",
+      align: "center",
+      ellipsis: true,
+    },
+    {
+      title: "Loại sản phẩm",
+      dataIndex: "productType",
+      key: "productType",
+      align: "center",
+      filters: [
+        { text: "iPhone", value: "iPhone" },
+        { text: "iMac", value: "iMac" },
+        { text: "iPad", value: "iPad" },
+        { text: "AirPod", value: "AirPod" },
+        { text: "Watch", value: "Watch" },
+        { text: "Phụ kiện", value: "Phụ kiện" },
+      ],
+      onFilter: (value, record) => record.productType === value,
+    },
+    {
+      title: "Dung lượng",
+      dataIndex: "capacities",
+      key: "capacities",
+      align: "center",
+      render: (capacities) =>
+        capacities && capacities.length > 0 ? capacities.join(", ") : "Chưa có",
+    },
+    {
+      title: "Màu sắc",
+      dataIndex: "colors",
+      key: "colors",
+      align: "center",
+      width: 200,
+      render: (colors) => (
+        <div className="flex flex-col gap-2">
+          {colors?.map((color, index) => (
+            <div key={index} className="flex items-center gap-2">
+              <span style={{ fontWeight: "bold", color: "black" }}>
+                {color?.colorName} ({color?.colorCode})
+              </span>
+              {color?.images && color?.images.length > 0 && (
+                <Image
+                  src={color.images[0]} // Hiển thị ảnh đầu tiên
+                  alt={color.colorName || "Color Image"}
+                  width={50}
+                  height={50}
+                  style={{ borderRadius: "5px", objectFit: "cover" }}
+                  onError={(e) => {
+                    e.target.src = "/placeholder-image.jpg"; // Fallback nếu ảnh lỗi
+                  }}
+                />
+              )}
+            </div>
+          ))}
+        </div>
+      ),
+    },
+    {
+      title: "Hành động",
+      key: "action",
+      align: "center",
+      width: 150,
+      render: (record) => (
+        <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
+          <Popconfirm
+            title="Bạn có chắc chắn muốn xóa sản phẩm này không?"
+            onConfirm={() => handleDelete(record._id)}
+            okText="Có"
+            cancelText="Không"
+          >
+            <Button type="primary" danger icon={<DeleteOutlined />}>
+              Xóa
+            </Button>
+          </Popconfirm>
+          <Button
+            type="primary"
+            icon={<RxUpdate />}
+            onClick={() => handleOpenEdit(record)}
+          >
+            Chỉnh sửa
+          </Button>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <div>
@@ -86,196 +272,20 @@ const ProductManagement = () => {
         Thêm Sản phẩm
       </Button>
 
-      <div className="w-full ">
+      <div className="w-full">
         <Table
           dataSource={products}
           onChange={handleChange}
-          sortedInfo={sortedInfo}
-          columns={[
-            {
-              title: "STT",
-              dataIndex: "stt",
-              key: "stt",
-              align: "center",
-              render: (_, __, idx) => idx + 1,
-            },
-            {
-              title: "Tên",
-              dataIndex: "name",
-              key: "name",
-              align: "center",
-            },
-            {
-              title: "Mô tả",
-
-              key: "description",
-              align: "center",
-              render: (_, record) => (
-                <span onClick={() => showModalContent(record.description)}>
-                  Xem chi tiết
-                </span>
-              ),
-              //   render: (_, record) => (
-              //
-              //   ),
-            },
-            {
-              title: "Giá",
-              dataIndex: "price",
-              key: "price",
-              align: "center",
-              sorter: (a, b) => a.price - b.price,
-              sortOrder: sortedInfo.columnKey === "price" && sortedInfo.order,
-            },
-            {
-              title: "Ngày ra mắt",
-              dataIndex: "releaseDate",
-              key: "releaseDate",
-              align: "center",
-              render: (record) => (
-                <span suppressHydrationWarning>
-                  {new Date(record).toLocaleDateString("vi-VN")}
-                </span>
-              ),
-            },
-            {
-              title: "Số lượng",
-              dataIndex: "stock",
-              key: "stock",
-              align: "center",
-              sorter: (a, b) => a.stock - b.stock,
-              sortOrder: sortedInfo.columnKey === "stock" && sortedInfo.order,
-            },
-            {
-              title: "Chip",
-              dataIndex: "chip",
-              key: "chip",
-              align: "center",
-            },
-            { title: "RAM", dataIndex: "ram", key: "ram", align: "center" },
-            {
-              title: "Storage",
-              dataIndex: "storage",
-              key: "storage",
-              align: "center",
-            },
-            {
-              title: "Màn hình",
-              dataIndex: "display",
-              key: "display",
-              align: "center",
-            },
-            {
-              title: "Pin",
-              dataIndex: "battery",
-              key: "battery",
-              align: "center",
-            },
-            {
-              title: "Camera",
-              dataIndex: "camera",
-              key: "camera",
-              align: "center",
-            },
-            {
-              title: "Hệ điều hành",
-              dataIndex: "os",
-              key: "os",
-              align: "center",
-            },
-            {
-              title: "Loại sản phẩm",
-              dataIndex: "productType",
-              key: "productType",
-              align: "center",
-              filters: [
-                { text: "iPhone", value: "iPhone" },
-                { text: "iMac", value: "iMac" },
-                { text: "iPad", value: "iPad" },
-                { text: "AirPod", value: "AirPod" },
-                { text: "Watch", value: "Watch" },
-                { text: "Phụ kiện", value: "Phụ kiện" },
-              ],
-              onFilter: (value, record) => record.productType === value,
-            },
-            {
-              title: "Dung lượng",
-              dataIndex: "capacities",
-              key: "capacities",
-              align: "center",
-              render: (capacities) => capacities.join(", "),
-            },
-            {
-              title: "Màu sắc",
-              dataIndex: "colors",
-              key: "colors",
-              align: "center",
-              render: (colors) => (
-                <div className="w-full flex">
-                  {colors.map((color, index) => (
-                    <div
-                      key={index}
-                      className="w-full flex flex-col items-center justify-between"
-                    >
-                      <span style={{ fontWeight: "bold", color: "black" }}>
-                        {color?.colorName}
-                      </span>
-                      {color.images.length > 0 && (
-                        <div
-                          style={{
-                            display: "flex",
-                            gap: "5px",
-                            marginTop: "5px",
-                          }}
-                        >
-                          {color?.images?.length > 0 && (
-                            <Image
-                              src={`https://api-bstore-no35.vercel.app/uploads/${color?.images[0]}`}
-                              alt={color.colorName}
-                              width={50}
-                              height={50}
-                              style={{ borderRadius: "5px" }}
-                            />
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ),
-            },
-            {
-              title: "Tùy chọn",
-              render: (record) => (
-                <>
-                  <div style={{ display: "flex", gap: "10px" }}>
-                    <Popconfirm
-                      title="Bạn có chắc chắn muốn xóa blog này không?"
-                      onConfirm={() => handleDelete(record._id)}
-                      okText="Có"
-                      cancelText="Không"
-                    >
-                      <Button type="primary" danger icon={<DeleteOutlined />}>
-                        Xóa
-                      </Button>
-                    </Popconfirm>
-                    <Button
-                      type="primary"
-                      onClick={() => handleOpenEdit(record)}
-                      primary
-                      icon={<RxUpdate />}
-                    >
-                      Chỉnh sửa
-                    </Button>
-                  </div>
-                </>
-              ),
-            },
-          ]}
+          columns={columns}
           loading={isLoading}
           rowKey="_id"
-          scroll={{ x: "max-content" }} // Đảm bảo Table rộng tối đa
-          className="w-full" // Thêm class Tailwind để chiếm toàn bộ width
+          scroll={{ x: "max-content" }}
+          pagination={{
+            pageSize: 10,
+            showSizeChanger: true,
+            showQuickJumper: true,
+          }}
+          className="w-full"
         />
 
         <Modal
@@ -300,7 +310,7 @@ const ProductManagement = () => {
           width={800}
         >
           <ProductForm
-            key={formKey} // Thêm key để reset form
+            key={formKey}
             initialValues={editingProduct}
             onSuccess={handleFormSuccess}
           />

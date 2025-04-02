@@ -209,7 +209,7 @@ function Cart() {
             <div className="flex items-center gap-4">
               <Link className="cursor-pointer" href={`/product/${item.id}`}>
                 <Image
-                  src={`https://api-bstore-no35.vercel.app/uploads/${item.image}`}
+                  src={`${item.image}`}
                   alt={item.name}
                   width={80}
                   height={80}

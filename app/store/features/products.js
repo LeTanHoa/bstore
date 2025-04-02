@@ -13,20 +13,23 @@ export const productApi = createApi({
       query: (id) => `/products/${id}`, // Thêm query lấy sản phẩm theo ID
     }),
     addProduct: builder.mutation({
-      query: (product) => ({
+      query: (formData) => ({
         url: "/products",
         method: "POST",
-        body: product,
+        body: formData,
       }),
     }),
     updateProduct: builder.mutation({
-      query: ({ id, formData }) => ({
-        url: `/products/${id}`,
+      query: ({ id, formData, action }) => ({
+        url: `/products/${id}${action ? "/" + action : ""}`,
         method: "PUT",
-        body: formData, // Gửi FormData thay vì JSON object
-        headers: {
-          // Không đặt Content-Type, trình duyệt sẽ tự động thêm boundary
-        },
+        body: formData,
+        headers:
+          action === "deleteColor"
+            ? {
+                "Content-Type": "application/json",
+              }
+            : undefined,
       }),
     }),
 

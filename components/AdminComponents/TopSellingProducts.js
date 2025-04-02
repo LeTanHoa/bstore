@@ -18,7 +18,7 @@ const TopSellingProducts = ({ products }) => {
       render: (_, record) => (
         <div className="flex items-center gap-3">
           <Image
-            src={`https://api-bstore-no35.vercel.app/uploads/${record.image}`}
+            src={`${record.image}`}
             alt={record.name}
             width={50}
             height={50}

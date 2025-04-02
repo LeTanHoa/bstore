@@ -62,6 +62,26 @@ const CustomNextArrow = ({ onClick }) => (
   </button>
 );
 
+const getValidImageUrl = (imageUrl) => {
+  if (!imageUrl) return null;
+  
+  // Nếu đã là URL Cloudinary đầy đủ
+  if (imageUrl.startsWith('https://res.cloudinary.com/')) {
+    return imageUrl;
+  }
+  
+  // Nếu là ID của ảnh trên Cloudinary, tạo URL đầy đủ
+  try {
+    const cloudinaryBaseUrl = 'https://res.cloudinary.com/dahm7mli8/image/upload/';
+    // Loại bỏ các ký tự "/" ở đầu nếu có
+    const cleanImagePath = imageUrl.replace(/^\/+/, '');
+    return `${cloudinaryBaseUrl}${cleanImagePath}`;
+  } catch (error) {
+    console.error('Error processing Cloudinary URL:', error, imageUrl);
+    return null;
+  }
+};
+
 const ProductDetailClient = ({ params }) => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -258,10 +278,14 @@ const ProductDetailClient = ({ params }) => {
   const [selectedImage, setSelectedImage] = useState("");
 
   useEffect(() => {
-    if (product?.colors?.[0]?.images?.[0]) {
-      setSelectedImage(product.colors[0].images[0]);
+    if (product?.colors[0]?.images[0]) {
+      const imageUrl = getValidImageUrl(product.colors[0].images[0]);
+      console.log('Initial image URL:', imageUrl);
+      setSelectedImage(imageUrl);
     }
   }, [product]);
+
+  console.log(product);
   const items = [
     {
       key: "1",
@@ -316,7 +340,7 @@ const ProductDetailClient = ({ params }) => {
                             >
                               <Image
                                 className=" w-1/2 object-cover"
-                                src={`https://api-bstore-no35.vercel.app/uploads/${item?.image}`}
+                                src={`${item?.image}`}
                                 alt=""
                                 width={100}
                                 height={100}
@@ -374,7 +398,7 @@ const ProductDetailClient = ({ params }) => {
                 <Image
                   width={100}
                   height={100}
-                  src={`https://api-bstore-no35.vercel.app/uploads/${product?.colors?.[0]?.images?.[0]}`}
+                  src={`${product?.colors[0]?.images[0]}`}
                   alt=""
                 />
                 <span className="mt-3 line-clamp-1">{product?.name || ""}</span>
@@ -478,7 +502,7 @@ const ProductDetailClient = ({ params }) => {
                         <Image
                           width={100}
                           height={100}
-                          src={`https://api-bstore-no35.vercel.app/uploads/${item?.colors?.[0]?.images?.[0]}`}
+                          src={`${item?.colors?.[0]?.images?.[0]}`}
                           alt=""
                         />
                         <span
@@ -577,31 +601,39 @@ const ProductDetailClient = ({ params }) => {
           <div>
             {/* Ảnh lớn */}
             <div className="border rounded-lg p-10 overflow-hidden">
-              <Image
-                src={`https://api-bstore-no35.vercel.app/uploads/${selectedImage}`}
-                alt={product.name}
-                width={200}
-                height={200}
-                className="w-full h-auto object-cover"
-              />
+              {selectedImage ? (
+                <Image
+                  src={selectedImage}
+                  alt={product.name}
+                  width={200}
+                  height={200}
+                  className="w-full h-auto object-cover"
+                  unoptimized={false}
+                />
+              ) : (
+                <div className="w-full h-[200px] flex items-center justify-center bg-gray-100">
+                  <span>No Image Available</span>
+                </div>
+              )}
             </div>
 
             <div className="flex gap-2 mt-3">
-              {product.colors[selectedColorIndex].images.map((img, index) => (
-                <Image
-                  key={index}
-                  src={`https://api-bstore-no35.vercel.app/uploads/${img}`}
-                  alt={product.name}
-                  width={80}
-                  height={80}
-                  className={`cursor-pointer p-1 border rounded-lg ${
-                    selectedImage === img
-                      ? "border-blue-500"
-                      : "border-gray-300"
-                  }`}
-                  onClick={() => setSelectedImage(img)}
-                />
-              ))}
+              {product.colors[selectedColorIndex].images.map((img, index) => {
+                const validImageUrl = getValidImageUrl(img);
+                return validImageUrl ? (
+                  <Image
+                    key={index}
+                    src={validImageUrl}
+                    alt={`${product.name} - Image ${index + 1}`}
+                    width={80}
+                    height={80}
+                    className={`cursor-pointer p-1 border rounded-lg ${
+                      selectedImage === validImageUrl ? "border-blue-500" : "border-gray-300"
+                    }`}
+                    onClick={() => setSelectedImage(validImageUrl)}
+                  />
+                ) : null;
+              })}
             </div>
           </div>
 
@@ -893,7 +925,7 @@ const ProductDetailClient = ({ params }) => {
           <div className="flex text-[20px] md:text-[24px] font-bold ">
             Có thể bạn quan tâm !
           </div>
-          <div>
+          {/* <div>
             {isLoading ? (
               <div className="w-full flex items-center justify-center">
                 <Spin />
@@ -914,7 +946,7 @@ const ProductDetailClient = ({ params }) => {
                 })}
               </Slider>
             )}
-          </div>
+          </div> */}
         </div>
         <div className=" my-5 max-w-screen-xl w-full mx-auto ">
           <div className=" grid grid-cols-2 gap-5 md:flex md:justify-between w-full">
