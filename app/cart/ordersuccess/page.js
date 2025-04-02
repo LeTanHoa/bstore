@@ -101,7 +101,6 @@ const OrderSuccess = () => {
             orderId: orderId,
             selected: paymentMethod,
           });
-          console.log(res);
 
           if (res.data.payUrl) {
             window.location.href = res.data.payUrl;

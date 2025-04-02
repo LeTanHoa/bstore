@@ -280,12 +280,10 @@ const ProductDetailClient = ({ params }) => {
   useEffect(() => {
     if (product?.colors[0]?.images[0]) {
       const imageUrl = getValidImageUrl(product.colors[0].images[0]);
-      console.log('Initial image URL:', imageUrl);
       setSelectedImage(imageUrl);
     }
   }, [product]);
 
-  console.log(product);
   const items = [
     {
       key: "1",

@@ -88,7 +88,6 @@ const Dashboard = () => {
     };
   }
   const result = analyzeTopSellingProducts(orders);
-  console.log(result);
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       {/* Overview Cards */}

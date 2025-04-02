@@ -3,7 +3,6 @@ import React from "react";
 import { Table, Image, Tag } from "antd";
 
 const TopSellingProducts = ({ products }) => {
-  console.log(products);
   const columns = [
     {
       title: "STT",

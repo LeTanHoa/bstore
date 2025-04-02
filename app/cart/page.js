@@ -32,7 +32,6 @@ function Cart() {
   const { data: products, isLoading } = useGetProductsQuery();
   const cartItems = useSelector((state) => state.cart.items);
   const [addOrder] = useAddOrderMutation();
-  console.log(cartItems);
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -187,7 +186,6 @@ function Cart() {
 
     try {
       const response = await addOrder(orderData).unwrap();
-      console.log("Đơn hàng đã được đặt:", response.data);
       toast.success("Đặt hàng thành công!");
       //dispatch(clearCart()); // Xóa giỏ hàng sau khi đặt hàng thành công
       router.push(`/cart/ordersuccess?orderId=${orderId}`); // Chỉ truyền orderId qua query

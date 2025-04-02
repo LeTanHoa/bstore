@@ -157,7 +157,6 @@ const Bill = () => {
   const handleDelete = async (id) => {
     try {
       const response = await deleteOrder(id).unwrap();
-      console.log("API Response:", response);
       if (response.success) {
         toast.success("Xóa thành công!");
         refetch();
