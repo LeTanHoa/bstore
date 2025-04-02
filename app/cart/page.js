@@ -404,9 +404,23 @@ function Cart() {
             <Form.Item name="store">
               <Select>
                 <Option value="Chọn cửa hàng">Chọn cửa hàng</Option>
-                <Option value="A">A</Option>
-                <Option value="B">B</Option>
-                <Option value="C">C</Option>
+                <Option value="FPT Tower, Hà Nội">
+                  FPT Tower, 10 Pham Van Bach Street, Dich Vong Ward, Cau Giay
+                  District, Hanoi, Vietnam
+                </Option>
+                <Option value="FPT Tan Thuan, TP. HCM">
+                  FPT Tan Thuan Building, Lot L29B-31B-33B, Street 8, Tan Thuan
+                  EPZ, Tan Thuan Dong Ward, District 7, Ho Chi Minh City,
+                  Vietnam
+                </Option>
+                <Option value="FPT Complex, Đà Nẵng">
+                  FPT Complex building, FPT City, Hoa Hai, Ngu Hanh Son Ward, Da
+                  Nang, Vietnam
+                </Option>
+                <Option value="FPT Shop, Cần Thơ">
+                  69 Hung Vuong, Thoi Binh Ward, Ninh Kieu District, Can Tho,
+                  Vietnam
+                </Option>
               </Select>
             </Form.Item>
           )}

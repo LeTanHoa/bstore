@@ -64,20 +64,21 @@ const CustomNextArrow = ({ onClick }) => (
 
 const getValidImageUrl = (imageUrl) => {
   if (!imageUrl) return null;
-  
+
   // Nếu đã là URL Cloudinary đầy đủ
-  if (imageUrl.startsWith('https://res.cloudinary.com/')) {
+  if (imageUrl.startsWith("https://res.cloudinary.com/")) {
     return imageUrl;
   }
-  
+
   // Nếu là ID của ảnh trên Cloudinary, tạo URL đầy đủ
   try {
-    const cloudinaryBaseUrl = 'https://res.cloudinary.com/dahm7mli8/image/upload/';
+    const cloudinaryBaseUrl =
+      "https://res.cloudinary.com/dahm7mli8/image/upload/";
     // Loại bỏ các ký tự "/" ở đầu nếu có
-    const cleanImagePath = imageUrl.replace(/^\/+/, '');
+    const cleanImagePath = imageUrl.replace(/^\/+/, "");
     return `${cloudinaryBaseUrl}${cleanImagePath}`;
   } catch (error) {
-    console.error('Error processing Cloudinary URL:', error, imageUrl);
+    console.error("Error processing Cloudinary URL:", error, imageUrl);
     return null;
   }
 };
@@ -419,43 +420,57 @@ const ProductDetailClient = ({ params }) => {
                   </span>
                 </div>
                 <div className="relative border-t-2 py-3 border-t-gray-300">
-                  <span>{product?.chip || "không được trang bị"}</span>
+                  <span className="line-clamp-1">
+                    {product?.chip || "không được trang bị"}
+                  </span>
                   <span className="absolute -top-3 left-0 bg-white pr-5 font-bold">
                     Chip
                   </span>
                 </div>
                 <div className="relative border-t-2 py-3 border-t-gray-300">
-                  <span>{product?.ram || "không được trang bị"}</span>
+                  <span className="line-clamp-1">
+                    {product?.ram || "không được trang bị"}
+                  </span>
                   <span className="absolute -top-3 left-0 bg-white pr-5 font-bold">
                     RAM
                   </span>
                 </div>
                 <div className="relative border-t-2 py-3 border-t-gray-300">
-                  <span>{product?.storage || "không được trang bị"}</span>
+                  <span className="line-clamp-1">
+                    {product?.storage || "không được trang bị"}
+                  </span>
                   <span className="absolute -top-3 left-0 bg-white pr-5 font-bold">
                     Bộ nhớ
                   </span>
                 </div>
                 <div className="relative border-t-2 py-3 border-t-gray-300">
-                  <span>{product?.display || "không được trang bị"}</span>
+                  <span className="line-clamp-1">
+                    {product?.display || "không được trang bị"}
+                  </span>
                   <span className="absolute -top-3 left-0 bg-white pr-5 font-bold">
                     Màn hình
                   </span>
                 </div>
                 <div className="relative border-t-2 py-3 border-t-gray-300">
-                  <span>{product?.battery || "không được trang bị"}</span>
+                  <span className="line-clamp-1">
+                    {product?.battery || "không được trang bị"}
+                  </span>
                   <span className="absolute -top-3 left-0 bg-white pr-5 font-bold">
                     Pin
                   </span>
                 </div>
                 <div className="relative border-t-2 py-3 border-t-gray-300">
-                  <span>{product?.camera || "không được trang bị"}</span>
+                  <span className="line-clamp-1">
+                    {product?.camera || "không được trang bị"}
+                  </span>
                   <span className="absolute -top-3 left-0 bg-white pr-5 font-bold">
                     Camera
                   </span>
                 </div>
                 <div className="relative border-t-2 py-3 border-t-gray-300">
-                  <span>{product?.os || "không được trang bị"}</span>
+                  <span className="line-clamp-1">
+                    {product?.os || "không được trang bị"}
+                  </span>
                   <span className="absolute -top-3 left-0 bg-white pr-5 font-bold">
                     OS
                   </span>
@@ -526,25 +541,39 @@ const ProductDetailClient = ({ params }) => {
                           </span>
                         </div>
                         <div className="relative border-t-2 py-3 border-t-gray-300">
-                          <span className="pl-5 ">{item?.chip || ""}</span>
+                          <span className="pl-5 line-clamp-1">
+                            {item?.chip || ""}
+                          </span>
                         </div>
                         <div className="relative border-t-2 py-3 border-t-gray-300">
-                          <span className="pl-5 ">{item?.ram || ""}</span>
+                          <span className="pl-5 line-clamp-1">
+                            {item?.ram || ""}
+                          </span>
                         </div>
                         <div className="relative border-t-2 py-3 border-t-gray-300">
-                          <span className="pl-5 ">{item?.storage || ""}</span>
+                          <span className="pl-5 line-clamp-1">
+                            {item?.storage || ""}
+                          </span>
                         </div>
                         <div className="relative border-t-2 py-3 border-t-gray-300">
-                          <span className="pl-5 ">{item?.display || ""}</span>
+                          <span className="pl-5 line-clamp-1">
+                            {item?.display || ""}
+                          </span>
                         </div>
                         <div className="relative border-t-2 py-3 border-t-gray-300">
-                          <span className="pl-5 ">{item?.battery || ""}</span>
+                          <span className="pl-5 line-clamp-1">
+                            {item?.battery || ""}
+                          </span>
                         </div>
                         <div className="relative border-t-2 py-3 border-t-gray-300">
-                          <span className="pl-5 ">{item?.camera || ""}</span>
+                          <span className="pl-5 line-clamp-1">
+                            {item?.camera || ""}
+                          </span>
                         </div>
                         <div className="relative border-t-2 py-3 border-t-gray-300">
-                          <span className="pl-5  ">{item?.os || ""}</span>
+                          <span className="pl-5 line-clamp-1">
+                            {item?.os || ""}
+                          </span>
                         </div>
                         <div className="relative border-t-2 py-3 border-t-gray-300">
                           <span className="pl-5 line-clamp-1">
@@ -615,7 +644,7 @@ const ProductDetailClient = ({ params }) => {
               )}
             </div>
 
-            <div className="flex gap-2 mt-3">
+            <div className="flex gap-2 mt-3 overflow-y-auto scrollbar-hide">
               {product.colors[selectedColorIndex].images.map((img, index) => {
                 const validImageUrl = getValidImageUrl(img);
                 return validImageUrl ? (
@@ -626,7 +655,9 @@ const ProductDetailClient = ({ params }) => {
                     width={80}
                     height={80}
                     className={`cursor-pointer p-1 border rounded-lg ${
-                      selectedImage === validImageUrl ? "border-blue-500" : "border-gray-300"
+                      selectedImage === validImageUrl
+                        ? "border-blue-500"
+                        : "border-gray-300"
                     }`}
                     onClick={() => setSelectedImage(validImageUrl)}
                   />

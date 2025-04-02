@@ -51,3 +51,12 @@
 .circle .highcharts-credits {
   display: none !important;
 }
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* Ẩn trên IE và Edge */
+  scrollbar-width: none; /* Ẩn trên Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Ẩn trên Chrome, Safari, và các trình duyệt WebKit */
+}
