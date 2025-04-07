@@ -30,10 +30,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useGetFlashSalesQuery } from "../store/features/sales";
 import FlashSaleSection from "@/components/FlashSaleSection";
 import { useUser } from "@/hook/useUser";
-// import Chat from "@/components/Chat";
+import { FaLongArrowAltUp } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 const { Countdown } = Statistic;
 import { SendOutlined, UpOutlined } from "@ant-design/icons";
+import Chat from "@/components/Chat";
+import { MessageOutlined } from "@ant-design/icons";
+
 const deadline = Date.now() + 1000 * 60 * 3000;
 const CustomPrevArrow = ({ onClick }) => (
   <button
@@ -199,7 +202,7 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="pb-20 bg-[#3e3e3f] mt-[42px] w-full ">
+    <div className="pb-20 bg-[#3e3e3f] mt-[70px] w-full ">
       <div className="">
         <Slider {...settings}>
           <div>
@@ -474,12 +477,12 @@ const HomePage = () => {
               </Slider>
             </div>
 
-            {/* <div className="fixed right-6 md:right-10 bottom-10 z-50 flex flex-col gap-7">
+            <div className="fixed right-6 md:right-10 bottom-10 z-50 flex flex-col gap-5">
               <div
                 onClick={() => window.scrollTo(0, 0)}
                 className="w-12 md:w-16 h-12 md:h-16  flex items-center justify-center bg-blue-500 rounded-full cursor-pointer select-none"
               >
-                <UpOutlined className="text-[20px] md:text-[30px] text-white" />
+                <FaLongArrowAltUp className="text-[20px] md:text-[30px] text-white" />
               </div>
               {!isAdminRoute && user?.role === "user" && (
                 <div>
@@ -487,7 +490,7 @@ const HomePage = () => {
                     onClick={() => setIsChatOpen(!isChatOpen)}
                     className="w-12 md:w-16 h-12 md:h-16 flex items-center justify-center bg-blue-500 rounded-full cursor-pointer select-none"
                   >
-                    <SendOutlined className="text-[20px] md:text-[30px] text-white" />
+                    <MessageOutlined className="text-[20px] md:text-[30px] text-white" />
                   </div>
                   {isChatOpen && (
                     <div className="fixed right-2 md:right-10 overflow-hidden bottom-28 md:bottom-36 w-96 h-[500px] bg-white shadow-lg rounded-lg">
@@ -501,7 +504,7 @@ const HomePage = () => {
                   )}
                 </div>
               )}
-            </div> */}
+            </div>
           </div>
         </div>
       </div>

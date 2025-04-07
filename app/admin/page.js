@@ -10,7 +10,6 @@ import { useGetOrdersQuery } from "../store/features/orders";
 import { useGetUsersQuery } from "../store/features/users";
 import TopSellingProducts from "@/components/AdminComponents/TopSellingProducts";
 
-// Cấu hình biểu đồ Highcharts
 const currentYear = new Date().getFullYear();
 
 const Dashboard = () => {
@@ -99,7 +98,6 @@ const Dashboard = () => {
                 <p className="text-gray-500 uppercase font-bold">Danh thu</p>
                 <h3 className="text-2xl font-bold">{formattedRevenue}</h3>
               </div>
-             
             </div>
           </Card>
         </Col>
@@ -110,7 +108,6 @@ const Dashboard = () => {
                 <p className="text-gray-500 uppercase font-bold">Đặt hàng</p>
                 <h3 className="text-2xl font-bold">{filterOrder?.length}</h3>
               </div>
-             
             </div>
           </Card>
         </Col>
@@ -121,7 +118,6 @@ const Dashboard = () => {
                 <p className="text-gray-500 uppercase font-bold">Người dùng</p>
                 <h3 className="text-2xl font-bold">{filterUserCus?.length}</h3>
               </div>
-             
             </div>
           </Card>
         </Col>

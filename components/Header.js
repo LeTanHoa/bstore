@@ -100,7 +100,7 @@ const Header = () => {
             <div className="flex w-9/12 md:w-2/12 text-white justify-end items-center gap-4 sm:gap-6 md:gap-8">
               {/* Icon Menu - Hiển thị trên mobile */}
               <IoMenu
-                className="text-[20px] sm:text-[23px] cursor-pointer md:hidden"
+                className="text-[25px] sm:text-[23px] cursor-pointer md:hidden"
                 onClick={() => setIsMenuOpen(true)}
               />
               <IoSearch

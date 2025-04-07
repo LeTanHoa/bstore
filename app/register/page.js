@@ -51,13 +51,14 @@ const Register = () => {
   // Form xác nhận OTP
   if (isOtpSent) {
     return (
-      <div className="max-w-md mx-auto p-6 my-40 bg-white rounded-xl shadow-xl">
+      <div className="max-w-md mx-auto p-3 my-40 bg-white ">
         <h2 className="text-2xl font-bold text-center mb-6">Xác nhận OTP</h2>
         <Form
           form={form}
           name="otpVerification"
           onFinish={handleVerifyOtp}
           layout="vertical"
+          className="rounded-xl shadow-xl p-3"
         >
           <Form.Item
             name="otp"
@@ -87,7 +88,7 @@ const Register = () => {
 
   // Form đăng ký ban đầu
   return (
-    <div className="max-w-md mx-auto p-6 my-40 bg-white rounded-xl shadow-xl">
+    <div className="max-w-md mx-auto p-3 my-40 bg-white ">
       <h2 className="text-2xl font-bold text-center mb-6">Đăng Ký</h2>
       <Form
         form={form}
@@ -95,6 +96,7 @@ const Register = () => {
         onFinish={handleRegister}
         layout="vertical"
         initialValues={{}}
+        className="rounded-xl shadow-xl p-3"
       >
         <Form.Item
           name="username"

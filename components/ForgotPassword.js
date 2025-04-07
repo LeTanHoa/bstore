@@ -1,113 +1,103 @@
 import { useState } from "react";
 import baseUrl from "@/config/baseUrl";
+import { Form, Input, Button } from "antd";
+import { toast } from "react-toastify";
 const ForgotPassword = () => {
+  const [form] = Form.useForm();
   const [step, setStep] = useState(1); // 1: email form, 2: otp form
   const [email, setEmail] = useState("");
-  const [otp, setOtp] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [message, setMessage] = useState("");
 
-  const handleSendOTP = async (e) => {
-    e.preventDefault();
+  const handleSendOTP = async (values) => {
     try {
       const response = await fetch(`${baseUrl}/auth/forgot-password-email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: values.email }),
       });
 
       const data = await response.json();
       if (response.ok) {
-        setMessage(data.message);
-        setStep(2); // Move to OTP form
+        toast.success(data.message);
+        setEmail(values.email); // Lưu lại email
+        setStep(2);
       } else {
-        setMessage(data.message);
+        toast.error(data.message);
       }
     } catch (error) {
-      setMessage("Có lỗi xảy ra, vui lòng thử lại");
+      toast.error("Có lỗi xảy ra, vui lòng thử lại");
     }
   };
 
-  const handleResetPassword = async (e) => {
-    e.preventDefault();
+  const handleResetPassword = async (values) => {
     try {
       const response = await fetch(`${baseUrl}/auth/reset-password-email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, otp, newPassword }),
+        body: JSON.stringify({
+          email,
+          otp: values.otp,
+          newPassword: values.newPassword,
+        }),
       });
 
       const data = await response.json();
-      setMessage(data.message);
-
       if (response.ok) {
-        // Redirect to login page after successful reset
+        toast.success(data.message);
         setTimeout(() => {
           window.location.href = "/login";
         }, 2000);
+      } else {
+        toast.error(data.message);
       }
     } catch (error) {
-      setMessage("Có lỗi xảy ra, vui lòng thử lại");
+      toast.error("Có lỗi xảy ra, vui lòng thử lại");
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6 text-center">Quên mật khẩu</h2>
-      {message && (
-        <div className="mb-4 p-3 bg-blue-100 text-blue-700 rounded">
-          {message}
-        </div>
-      )}
-
+    <div className="max-w-md mx-auto bg-white ">
       {step === 1 ? (
-        <form onSubmit={handleSendOTP}>
-          <div className="mb-4">
-            <label className="block mb-2">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 border rounded"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+        <Form form={form} layout="vertical" onFinish={handleSendOTP}>
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              { required: true, message: "Vui lòng nhập email!" },
+              { type: "email", message: "Email không hợp lệ!" },
+            ]}
           >
-            Gửi mã OTP
-          </button>
-        </form>
+            <Input placeholder="Vui lòng nhập email" />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" block>
+              Gửi mã OTP
+            </Button>
+          </Form.Item>
+        </Form>
       ) : (
-        <form onSubmit={handleResetPassword}>
-          <div className="mb-4">
-            <label className="block mb-2">Mã OTP</label>
-            <input
-              type="text"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              className="w-full p-2 border rounded"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block mb-2">Mật khẩu mới</label>
-            <input
-              type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              className="w-full p-2 border rounded"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+        <Form layout="vertical" onFinish={handleResetPassword}>
+          <Form.Item
+            label="Mã OTP"
+            name="otp"
+            rules={[{ required: true, message: "Vui lòng nhập mã OTP!" }]}
           >
-            Đặt lại mật khẩu
-          </button>
-        </form>
+            <Input placeholder="Nhập mã OTP" />
+          </Form.Item>
+
+          <Form.Item
+            label="Mật khẩu mới"
+            name="newPassword"
+            rules={[{ required: true, message: "Vui lòng nhập mật khẩu mới!" }]}
+          >
+            <Input.Password placeholder="Nhập mật khẩu mới" />
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit" block>
+              Đặt lại mật khẩu
+            </Button>
+          </Form.Item>
+        </Form>
       )}
     </div>
   );

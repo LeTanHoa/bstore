@@ -42,7 +42,7 @@ const Login = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto my-40 p-6 bg-white rounded-xl shadow-xl">
+    <div className="max-w-md mx-auto my-40 p-3 bg-white ">
       <h2 className="text-2xl font-bold text-center mb-6">Đăng Nhập</h2>
       <Form
         form={form}
@@ -50,6 +50,7 @@ const Login = () => {
         initialValues={{ remember: true }}
         onFinish={onFinish}
         layout="vertical"
+        className="rounded-xl shadow-xl p-3"
       >
         <Form.Item
           name="email"
@@ -102,6 +103,8 @@ const Login = () => {
         title="Quên mật khẩu"
         open={isModalOpenResetPassword}
         onOk={handleOkResetPassword}
+        footer={false}
+        centered
         onCancel={handleCancelResetPassword}
       >
         <ForgotPassword />
