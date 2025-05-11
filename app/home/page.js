@@ -36,6 +36,8 @@ const { Countdown } = Statistic;
 import { SendOutlined, UpOutlined } from "@ant-design/icons";
 import Chat from "@/components/Chat";
 import { MessageOutlined } from "@ant-design/icons";
+import { FaApple } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const deadline = Date.now() + 1000 * 60 * 3000;
 const CustomPrevArrow = ({ onClick }) => (
@@ -56,6 +58,8 @@ const CustomNextArrow = ({ onClick }) => (
   </button>
 );
 const HomePage = () => {
+  const router = useRouter();
+
   const [isMobile, setIsMobile] = useState(false);
   const { user, loading, logout } = useUser();
   const { data: products, isLoading } = useGetProductsQuery();
@@ -286,16 +290,15 @@ const HomePage = () => {
 
         <div className=" w-full rounded-xl ">
           <div className="flex flex-col gap-5 w-full  ">
-            <div>
-              <span className="font-bold text-center block  text-white uppercase text-[23px] md:text-[35px] ">
-                Sản phẩm dành cho bạn
-              </span>
+            <div className="flex items-center justify-between">
+              <div className="relative w-fit">
+                <div className="absolute left-1 top-1/2 -translate-y-1/2 w-[8px] h-8 bg-gradient-to-b from-orange-300 to-orange-600 rounded-full"></div>
+                <h2 className="pl-5  text-3xl font-semibold text-white tracking-tight">
+                  Sản phẩm dành cho bạn
+                </h2>
+              </div>
             </div>
-            <div>
-              <Link href="" className="w-full text-white">
-                Xem thêm
-              </Link>
-            </div>
+
             <div className="w-full">
               {isLoading ? (
                 <div className="w-full  flex items-center justify-center">
@@ -327,9 +330,20 @@ const HomePage = () => {
 
         <div className=" flex flex-col gap-10  w-full  ">
           <div className="flex flex-col gap-5">
-            <span className="text-white font-bold text-[23px] md:text-[35px] text-center w-full block">
-              iPhone
-            </span>
+            <div className="flex items-center justify-between">
+              <div className="relative w-fit">
+                <div className="absolute left-1 top-1/2 -translate-y-1/2 w-[8px] h-8 bg-gradient-to-b from-pink-500 to-red-600 rounded-full"></div>
+                <h2 className="pl-5  text-3xl font-semibold text-white tracking-tight">
+                  iPhone
+                </h2>
+              </div>
+              <span
+                className="text-white cursor-pointer"
+                onClick={() => router.push("/category/iphone")}
+              >
+                Xem thêm
+              </span>
+            </div>
             <div>
               <Slider {...settingsProduct}>
                 {datasIphone?.map((item) =>
@@ -353,9 +367,20 @@ const HomePage = () => {
             </div>
           </div>
           <div className="flex flex-col gap-5">
-            <span className="text-white font-bold text-[23px] md:text-[35px] text-center w-full block">
-              iPad
-            </span>
+            <div className="flex items-center justify-between">
+              <div className="relative w-fit">
+                <div className="absolute left-1 top-1/2 -translate-y-1/2 w-[8px] h-8 bg-gradient-to-b from-blue-400 to-blue-600 rounded-full"></div>
+                <h2 className="pl-5 text-3xl font-semibold text-white tracking-tight">
+                  iPad
+                </h2>
+              </div>
+              <span
+                className="text-white cursor-pointer"
+                onClick={() => router.push("/category/ipad")}
+              >
+                Xem thêm
+              </span>
+            </div>
             <div>
               <Slider {...settingsProduct}>
                 {datasIpad?.map((item) => {
@@ -378,9 +403,20 @@ const HomePage = () => {
             </div>
           </div>
           <div className="flex flex-col gap-5">
-            <span className="text-white font-bold text-[23px] md:text-[35px] text-center w-full block">
-              Mac
-            </span>
+            <div className="flex items-center justify-between">
+              <div className="relative w-fit">
+                <div className="absolute left-1 top-1/2 -translate-y-1/2 w-[8px] h-8 bg-gradient-to-b from-yellow-500 to-yellow-300 rounded-full"></div>
+                <h2 className="pl-5  text-3xl font-semibold text-white tracking-tight">
+                  Mac
+                </h2>
+              </div>
+              <span
+                className="text-white cursor-pointer"
+                onClick={() => router.push("/category/mac")}
+              >
+                Xem thêm
+              </span>
+            </div>
             <div>
               <Slider {...settingsProduct}>
                 {datasMac?.map((item) => {
@@ -403,9 +439,20 @@ const HomePage = () => {
             </div>
           </div>
           <div className="flex flex-col gap-5">
-            <span className="text-white font-bold text-[23px] md:text-[35px] text-center w-full block">
-              Watch
-            </span>
+            <div className="flex items-center justify-between">
+              <div className="relative w-fit">
+                <div className="absolute left-1 top-1/2 -translate-y-1/2 w-[8px] h-8 bg-gradient-to-b from-green-400 to-green-600 rounded-full"></div>
+                <h2 className="pl-5  text-3xl font-semibold text-white tracking-tight">
+                  Watch
+                </h2>
+              </div>
+              <span
+                className="text-white cursor-pointer"
+                onClick={() => router.push("/category/watch")}
+              >
+                Xem thêm
+              </span>
+            </div>
             <div>
               <Slider {...settingsProduct}>
                 {datasWatch?.map((item) => {
@@ -428,9 +475,20 @@ const HomePage = () => {
             </div>
           </div>
           <div className="flex flex-col gap-5">
-            <span className="text-white font-bold text-[23px] md:text-[35px] text-center w-full block">
-              AirPod
-            </span>
+            <div className="flex items-center justify-between">
+              <div className="relative w-fit">
+                <div className="absolute left-1 top-1/2 -translate-y-1/2 w-[8px] h-8 bg-gradient-to-b from-violet-500 to-violet-600 rounded-full"></div>
+                <h2 className="pl-5  text-3xl font-semibold text-white tracking-tight">
+                  AirPod
+                </h2>
+              </div>
+              <span
+                className="text-white cursor-pointer"
+                onClick={() => router.push("/category/airpod")}
+              >
+                Xem thêm
+              </span>
+            </div>
             <div>
               <Slider {...settingsProduct}>
                 {datasAirpods?.map((item) => {
@@ -453,9 +511,20 @@ const HomePage = () => {
             </div>
           </div>
           <div className="flex flex-col gap-5">
-            <span className="text-white font-bold text-[23px] md:text-[35px] text-center w-full block">
-              Phụ Kiện
-            </span>
+            <div className="flex items-center justify-between">
+              <div className="relative w-fit">
+                <div className="absolute left-1 top-1/2 -translate-y-1/2 w-[8px] h-8 bg-gradient-to-b from-zinc-50 to-zinc-400 rounded-full"></div>
+                <h2 className="pl-5  text-3xl font-semibold text-white tracking-tight">
+                  Phụ Kiện
+                </h2>
+              </div>
+              <span
+                className="text-white cursor-pointer"
+                onClick={() => router.push("/category/phukien")}
+              >
+                Xem thêm
+              </span>
+            </div>
             <div>
               <Slider {...settingsProduct}>
                 {datasAccessories?.map((item) => {
